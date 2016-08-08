@@ -3,7 +3,7 @@
  * * * * *
  * Vera Molnar – 25 Squares
  * * * * *
- * Adaptation by Martin Vögeli
+ * Interpretation by Martin Vögeli
  * * * * *
  * Based on code by Indae Hwang and Jon McCormack
  */
