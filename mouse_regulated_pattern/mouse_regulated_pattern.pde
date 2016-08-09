@@ -80,11 +80,10 @@ void movingCircle(float x, float y, float size, int offset) {
     fill(lerp(128, 0, circleAge), lerp(120, 0, circleAge));
     break;
   case 1:
-    fill(int(random(255)), int(random(255)), int(random(255)), lerp(120, 0, circleAge));
+    fill(random(255), random(255), random(255), lerp(120, 0, circleAge));
     break;
   default:
-    fill(colarray[(int)random(0,colarray.length-1)], lerp(120, 0, circleAge));
-    println(colarray.length);
+    fill(colarray[(int)random(colarray.length-1)], lerp(120, 0, circleAge));
     break;  
   }
   ellipse(x-size/2, y-size/2, circleSize, circleSize);
@@ -94,7 +93,7 @@ void mouseMoved() {
   frameRateValue = int(map(mouseX, 0, width, 2, 60));
   cellsize = int(map(mouseY, 0, height, 3, 3*cellsizeSetup));
   // print the current value on the screen
-  // println("Current frame Rate is: " + frameRateValue);
+  println("Current frame Rate is: " + frameRateValue);
 }
 // switch the color mode
 void mouseClicked() {
