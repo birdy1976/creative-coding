@@ -38,7 +38,8 @@ void draw() {
       movingCircle(centerpointX, centerpointY, cellsize, circleNumber);
     }
   }
-  saveFrame(getFrameName() + ".jpg");
+  // saveFrame(getFrameName() + ".jpg");
+  saveFrame("####.gif");
 }
 
 void movingCircle(float centerpointX, float centerpointY, float size, int circleNum) {
