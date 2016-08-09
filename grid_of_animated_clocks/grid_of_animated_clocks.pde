@@ -43,7 +43,6 @@ void draw() {
       }
     }
   }
-<<<<<<< HEAD
   saveFrame(getFrameName() + ".jpg");
 }//end of draw 
 
@@ -59,24 +58,6 @@ String getFrameName(){
     return "0"+str(frameCount);
   case 3: 
     return ""+str(frameCount);
-=======
-  // string frameName = getFrameName(frameNumber);
-  saveFrame(getFrameName(frameNumber++) + ".jpg");
-}//end of draw 
-
-// 0000, 0001, 0002 ..., 9999
-String getFrameName(int frameNumber){
-  int lengthOfNumber = (int)(log(frameNumber)/log(10));
-  switch(lengthOfNumber) {
-  case 0: 
-    return "000"+str(frameNumber);
-  case 1: 
-    return "00"+str(frameNumber);
-  case 2: 
-    return "0"+str(frameNumber);
-  case 3: 
-    return ""+str(frameNumber);
->>>>>>> 002eb138ee0661466ffe9718ee989e67a060ab72
   default:
     return "0000";
   }
