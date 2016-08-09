@@ -6,6 +6,11 @@
  * Interpretation by Martin Vögeli
  * * * * *
  * Based on code by Indae Hwang and Jon McCormack
+ * * * * *
+ * Use the mouse for control:
+ * - left/right: change frame rate
+ * - up / down: change cell size
+ * - click: change colors
  */
 
 int frameRateValue; // variable used to store the current frame rate value
@@ -15,9 +20,18 @@ float gutter = 0; // distance between each cell
 float cellsize; // declare cellsize
 
 float cellsizeSetup; // save cellsize
+ 
+int colorSwitch = 0;
+// https://www.processing.org/discourse/beta/num_1174399976.html
+color [] colarray = {
+  color(100,255,35),
+  color(220,200,85),
+  color(185,65,200),
+  color(0,145,35),
+  color(245,35,200)
+};
 
 void setup() {
-
   // make the display window the full size of the screen
   // size(displayWidth, displayHeight);
   size(640, 480);
@@ -46,7 +60,11 @@ void draw() {
   fill(234,123);
   ellipse(mouseX, mouseY, 22, 22);
   // save the frames
-  saveFrame(getFrameName() + ".jpg");
+  saveFrame("####.jpg"); // or ".gif" 
+  // Linux: This command converts the frames to a video  
+  // avconv -framerate 12 -i %04d.jpg -b 5000k video.mp4
+  // Or if you want to create an animated GIF
+  // gifsicle --delay=10 --loop *.gif > animation.gif
 } //end of draw 
 
 void movingCircle(float x, float y, float size, int offset) {
@@ -56,33 +74,29 @@ void movingCircle(float x, float y, float size, int offset) {
   
   strokeWeight(2);
   stroke(255, lerp(255, 0, circleAge));
-  fill(lerp(128, 0, circleAge), lerp(120, 0, circleAge));
+  
+  switch(colorSwitch) {
+  case 0: 
+    fill(lerp(128, 0, circleAge), lerp(120, 0, circleAge));
+    break;
+  case 1:
+    fill(int(random(255)), int(random(255)), int(random(255)), lerp(120, 0, circleAge));
+    break;
+  default:
+    fill(colarray[(int)random(0,colarray.length-1)], lerp(120, 0, circleAge));
+    println(colarray.length);
+    break;  
+  }
   ellipse(x-size/2, y-size/2, circleSize, circleSize);
 }
-
+// change frame rate and cell size
 void mouseMoved() {
-  // frame rate and cell size according to mouse position 
   frameRateValue = int(map(mouseX, 0, width, 2, 60));
   cellsize = int(map(mouseY, 0, height, 3, 3*cellsizeSetup));
   // print the current value on the screen
-  println("Current frame Rate is: " + frameRateValue);
+  // println("Current frame Rate is: " + frameRateValue);
 }
-
-// 0001, 0002, 0003 ..., 9999
-String getFrameName(){
-  int lengthOfNumber = (int)(log(frameCount)/log(10));
-  switch(lengthOfNumber) {
-  case 0: 
-    return "000"+str(frameCount);
-  case 1: 
-    return "00"+str(frameCount);
-  case 2: 
-    return "0"+str(frameCount);
-  case 3: 
-    return ""+str(frameCount);
-  default:
-    return "0000";
-  }
-  // Linux: This command converts the frames to a video  
-  // avconv -framerate 12 -i %04d.jpg -b 5000k video.mp4
+// switch the color mode
+void mouseClicked() {
+  colorSwitch = ++colorSwitch % 3;
 }

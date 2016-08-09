@@ -5,7 +5,7 @@
  * * * * *
  * Interpretation by Martin Vögeli
  * * * * *
- * by Indae Hwang and Jon McCormack
+ * Based on code by Indae Hwang and Jon McCormack
  */
 
 int frameRateValue; // variable used to store the current frame rate value
@@ -38,8 +38,12 @@ void draw() {
       movingCircle(centerpointX, centerpointY, cellsize, circleNumber);
     }
   }
-  // saveFrame(getFrameName() + ".jpg");
-  saveFrame("####.gif");
+  // save the frames
+  saveFrame("####.jpg"); // or ".gif" 
+  // Linux: This command converts the frames to a video  
+  // avconv -framerate 12 -i %04d.jpg -b 5000k video.mp4
+  // Or if you want to create an animated GIF
+  // gifsicle --delay=10 --loop *.gif > animation.gif
 }
 
 void movingCircle(float centerpointX, float centerpointY, float size, int circleNum) {
@@ -79,23 +83,4 @@ void keyReleased() {
   // set the frameRate and print current value on the screen
   frameRate(frameRateValue);
   println("Current frame Rate is: " + frameRateValue);
-}
-
-// 0000, 0001, 0002 ..., 9999
-String getFrameName(){
-  int lengthOfNumber = (int)(log(frameCount)/log(10));
-  switch(lengthOfNumber) {
-  case 0: 
-    return "000"+str(frameCount);
-  case 1: 
-    return "00"+str(frameCount);
-  case 2: 
-    return "0"+str(frameCount);
-  case 3: 
-    return ""+str(frameCount);
-  default:
-    return "0000";
-  }
-  // Linux: This command converts the images to a video  
-  // avconv -framerate 10 -i %04d.jpg -b 5000k video.mp4
 }
