@@ -1,28 +1,33 @@
 /*
  * Creative Coding
- * Week 3, 04 - spinning top: curved motion with sin() and cos()
- * by Indae Hwang and Jon McCormack
- * Updated 2016
- * Copyright (c) 2014-2016 Monash University
- *
- * This sketch is the first cut at translating the motion of a spinning top
- * to trace a drawing path. This sketch traces a path using sin() and cos()
- *
+ * * * * *
+ * Spinning Top
+ * * * * *
+ * Interpretation by Martin Vögeli
+ * * * * *
+ * Based on code by Indae Hwang and Jon McCormack
  */
 
-float x, y;      // current drawing position
-float dx, dy;    // change in position at each frame
-float rad;       // for updating the angle of rotation each frame
+float x, y; // current drawing position
+float dx, dy; // change in position at each frame
+float rad; // for updating the angle of rotation each frame
 
-float max = 1;   // setting a boundary for spinning top to draw within
+float max = 1; // setting a boundary for spinning top to draw within
 float min = 0.5;
 
+float amplitude = 33; // maximal length of spinning top
+
+float mx, my; // point in the middle
+float maxdist; // max distance from the middle
+
 void setup() {
-  size(500, 500);
+  size(640, 480);
 
   // initial position in the centre of the screen
-  x = width/2;
-  y = height/2;
+  x = mx = width/2;
+  y = my = height/2;
+  
+  maxdist = dist(0, 0, mx, my);
 
   // dx and dy are the small change in position each frame
   dx = random(-1, 1);
@@ -32,10 +37,8 @@ void setup() {
 
 
 void draw() {
-  // blend the old frames into the background
-  blendMode(BLEND);
-  fill(0, 5);
-  rect(0, 0, width, height);
+  blendMode(LIGHTEST);
+  
   rad = radians(frameCount);
 
   // calculate new position
@@ -54,13 +57,20 @@ void draw() {
   float bx = x + 100 * sin(rad);  
   float by = y + 100 * cos(rad);  
 
-  fill(180);
-
-  float radius = 100 * sin(rad*0.1);
+  float radius = (7+random(1))*amplitude * sin(rad*0.1);
   float handX = bx + radius * sin(rad*3);
   float handY = by + radius * cos(rad*3);
+  // close to the center there is more color
+  float col = 255 - (255 * exp(dist(handX, handY, mx, my)) / exp(maxdist));
 
-  stroke(255, 50);
+  stroke(random(col), random(col), random(col), 33);
+  strokeWeight(random(5)+1);  
   line(bx, by, handX, handY);
-  ellipse(handX, handY, 2, 2);
+  // fill(random(col), random(col), random(col), 33);
+  // ellipse(handX, handY, 6, 6);
+}
+
+// press any key to save the frame
+void keyPressed() {
+  saveFrame("####.png");
 }
