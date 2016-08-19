@@ -1,4 +1,4 @@
-# Signature
+# Creative Coding
 
 My Processing sketches for the online course „Creative Coding“
 

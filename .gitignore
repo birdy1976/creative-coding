@@ -4,7 +4,7 @@
 
 # Ignore configuration of user #
 ################################
-signature.php
+*.mp4
 
 ##############################################################
 # https://github.com/ewbcanada/myewb2/blob/master/.gitignore #
