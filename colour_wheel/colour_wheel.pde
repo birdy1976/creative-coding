@@ -1,9 +1,10 @@
 /*
  * Creative Coding
+ * * * * *
+ * Colour Wheel
+ * * * * *
  * Week 4, 01 - an interactive colour wheel picker
- * by Indae Hwang and Jon McCormack
- * Updated 2016
- * Copyright (c) 2014-2016 Monash University
+ * by Indae Hwang and Jon McCormack, modified by Martin Vögeli
  *
  * This program draws an interactive colour selection wheel
  * Drag the colour circle around the hue wheel to change hue, change the distance
@@ -11,6 +12,7 @@
  *
  * Another colour circle is displayed showing the colour 180 degrees from the current colour
  * 
+ * Rotate the mouse wheel to change the saturation. 
  */
 
 // colourHandle: the user interface element to changing colours over the wheel
@@ -86,7 +88,7 @@ void draw() {
   ellipse(width/2, height/2, 10, 10);
 
   //   Hue       Sat  Brightness
-  fill(hueValue, 100, brightValue);
+  fill(hueValue, satValue, brightValue);
   ellipse(colorHandleX, colorHandleY, handleSize, handleSize );
 
   //complementry color for colorHandle (comHand)
@@ -201,8 +203,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent event) {
-  int tmp = satValue + event.getCount();
-  satValue = tmp < 0 ? 100 : tmp % 100;
-  // float e = event.getCount();
+  float tmp = satValue + event.getCount();
+  satValue = tmp < 0 ? 100 : tmp % 101;
   println(satValue);
 }
