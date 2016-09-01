@@ -1,9 +1,9 @@
 /*
  * Creative Coding
+ * * * * *
  * Week 5, 01 - Basic Text
- * by Jon McCormack
- * Updated 2016
- * Copyright (c) 2014-2016 Monash University
+ * * * * *
+ * Based on code by Jon McCormack modified by Martin Vögeli 
  *
  * This sketch shows how to use text in Processing
  * It draws the current location in x and y of the mouse on the screen
@@ -41,8 +41,12 @@ void draw() {
   // get the current mouse position as a string in the form "(x,y)"
   String mousePosition = "(" + str(mouseX) + "," + str(mouseY) + ")";
 
+  // make sure the text stays in the window
+  int x = mouseX < width-110 ? mouseX : mouseX - 110;
+  int y = mouseY > 20 ? mouseY : mouseY + 20;
+
   // STEP 4: display the mousePosition string at the current mouse location
-  text(mousePosition, mouseX, mouseY);
+  text(mousePosition, x, y);
 
   // draw the red '+' at the mouse location
   stroke(255, 0, 0);
