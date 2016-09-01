@@ -42,7 +42,8 @@ void draw() {
   String mousePosition = "(" + str(mouseX) + "," + str(mouseY) + ")";
 
   // make sure the text stays in the window
-  int x = mouseX < width-110 ? mouseX : mouseX - 110;
+  int w = int(textWidth(mousePosition));
+  int x = mouseX < width-w ? mouseX : mouseX-w;
   int y = mouseY > 20 ? mouseY : mouseY + 20;
 
   // STEP 4: display the mousePosition string at the current mouse location
