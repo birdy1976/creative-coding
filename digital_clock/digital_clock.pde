@@ -1,75 +1,99 @@
 /*
  * Creative Coding
- * Week 5, 02 - Digital Clock
- * by Indae Hwang and Jon McCormack
- * Updated 2016
- * Copyright (c) 2014-2016 Monash University
- *
- * This sketch shows how to use text in Processing
- * The sketch creates a digital clock that shows the current time in hours, minutes and seconds
- * Use the 'h', 'm' and 's' keys to enlarge the hours, minutes or seconds in the display.
- *
+ * * * * *
+ * Digital Clock
+ * * * * *
+ * Interpretation by Martin Vögeli
+ * * * * *
+ * Based on code by Indae Hwang and Jon McCormack
+ * * * * *
+ * Ideas for further digital clock modes:
+ * - Digits vibrate more and more
+ * - Digits glow more and more
+ * - Digits disappear as time goes by
+ * - Digits fall when their time's spent
+ * - Digits travel with clock hands
+ * - Digits end up in smoke
+ * - Digits lose weight etc.
  */
-PFont myFont;    // font data
-char  selected;  // what is selected (h,m,s)
-int   gap;       // gap between digits
 
+PFont f; // font data
+float p = 200; // text size in pixels
+String n; // number (s, min or hour) as a string
+float nw; // width of the number in pixels
+
+boolean u = false; // count up
+int g = 0; // grey scale
+int a = 111; // alpha value
+
+float rh, rm, rs; // radiuses of the circles
+float xh, xm, xs, xn; // positions in x
+float yh, ym, ys, yn; // positions in y
 
 void setup() {
-  size(1024, 600);
+  size(1024, 768);
+  frameRate(24);
 
-  myFont = loadFont("Frutiger65-Bold-200.vlw");  // load the font from this sketch's data directory
-  textFont(myFont);  // set the current font to myFont
-  selected = '0';
-  gap = 300;
   noStroke();
+
+  f = loadFont("Frutiger65-Bold-200.vlw"); // load the font from the sketch's data directory
+  textFont(f); // set the font
 }
 
 void draw() {
   background(0);
-  fill(255);
+  if (g == 0 || g == 255) {
+    u = !u;
+  }
   
-  // draw h, m, s
-  drawNumber(hour(), selected == 'h', -gap, 0);
-  drawNumber(minute(), selected == 'm', 0, 0);
-  drawNumber(second(), selected == 's', gap, 0);
-  color c = color(selected == 'h' ? 255 : 0, selected == 'm' ? 255 : 0, selected == 's' ? 255 : 0);
-  drawBanner(c, 10);
-}
+  if (u) {
+    g++;
+  } else { 
+    g--;
+  }
+  
+  // circles
+  rh = (0.9+sin(float(frameCount)/32)/16)*height;
+  
+  rm = rh/2;
+  rs = rm/2;
+  xh = width/2;
+  yh = height/2;
 
-/*
- * drawNumber
- * takes an integer and draws it offset from the centre of the screen by
- * offsetX and offsetY. If big is true then use a big size for the type.
- *
- */
-void drawNumber(int number, boolean big, float offsetX, float offsetY) {
-  String timeString = str(number); // convert number to string
-  if (big)
-    textSize(400); // set big font size
-  else
-    textSize(20);  // normal font size
+  fill(g, a);
+  ellipse(xh, yh, rh, rh);
 
-  float timeStringWidth = textWidth(timeString);
-  float timeStringAscent = textAscent() * 0.375;
+  xm = xh-rm/2*sin((minute()-30)*TWO_PI/60);
+  ym = yh+rm/2*cos((minute()-30)*TWO_PI/60);
+  ellipse(xm, ym, rm, rm);
 
-  // draw text offset from the centre of the screen
-  text(timeString, width/2 - timeStringWidth*0.5 + offsetX, height/2 + timeStringAscent + offsetY);
-}
+  xs = xm-rs/2*sin((second()-30)*TWO_PI/60);
+  ys = ym+rs/2*cos((second()-30)*TWO_PI/60);
+  ellipse(xs, ys, rs, rs);
 
-/*
- * drawBanner
- * draw a coloured banner at the bottom of the screen in the supplied colour
- */
-void drawBanner(color c, float w) {
-  noStroke();
-  fill(c);
-  rect(0, height - w, width, w);
-}
+  // digits
+  fill(255, 255);
 
+  n = str(second());
+  textSize(p/4);
+  nw = textWidth(n);
+  xn = xs-nw/2;
+  yn = ys+p/4/3;
+  text(second(), xn, yn);
 
+  n = str(minute());
+  textSize(p/2);
+  nw = textWidth(n);
+  xn = xm+rs/2*sin((second()-30)*TWO_PI/60)-nw/2;
+  yn = ym-rs/2*cos((second()-30)*TWO_PI/60)+p/2/2;
+  text(minute(), xn, yn);
 
-void keyReleased() {
-  // set selected to be the last key released
-  selected = key;
+  n = str(hour());
+  textSize(p);
+  nw = textWidth(n);
+  xn = xh+rm/2*sin((minute()-30)*TWO_PI/60)-nw/2;
+  yn = yh-rm/2*cos((minute()-30)*TWO_PI/60)+p/2;
+  text(hour(), xn, yn);
+  
+  saveFrame("####.png");
 }
