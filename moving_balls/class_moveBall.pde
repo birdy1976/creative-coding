@@ -4,6 +4,7 @@
  * Represents a moving ball that moves in a single direction
  *
  */
+ 
 class MovingBall {
 
   float x, y;        // position
@@ -12,6 +13,7 @@ class MovingBall {
   float radius;
 
   int direction;
+  int numOfDirections = 3;
 
   // constructor
   // create a moving ball at the supplied position (x_, y_)
@@ -21,7 +23,7 @@ class MovingBall {
 
     reset();
   }
-  
+
   // run
   // calls move() followed by display()
   void run() {
@@ -57,12 +59,10 @@ class MovingBall {
       reset();
     }
   }
-
   void reset() {
     step = 1;
     inc = random(0.01);
     radius = random(10, 50);
-    int numOfDirections = 3;
     float angleUnit = TWO_PI/numOfDirections; 
     direction = (int) random(numOfDirections);
 
