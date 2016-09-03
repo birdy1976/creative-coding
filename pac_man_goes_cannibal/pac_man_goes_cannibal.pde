@@ -1,9 +1,11 @@
 /*
  * Creative Coding
- * Week 5, 03 - Moving balls
- * by Indae Hwang and Jon McCormack
- * Updated 2016
- * Copyright (c) 2014-2016 Monash University
+ * * * * *
+ * Pac-Man Goes Cannibal
+ * * * * *
+ * Interpretation by Martin Vögeli
+ * * * * *
+ * Based on code by Indae Hwang and Jon McCormack
  *
  * This sketch shows the basics of classes and objects in Processing
  * It defines a class called "Ball" with member functions that move and display
@@ -12,11 +14,10 @@
 
 // declare array of Balls
 Ball theBalls[];
-int numBalls = 100;
+int numBalls = 99;
 
 void setup() {
-  size(500, 500);
-
+  size(640, 480);
   // initialise array and fill it with balls
   theBalls = new Ball[numBalls];
   for (int i = 0; i < numBalls; ++i) {
@@ -32,5 +33,11 @@ void draw() {
   for (int i = 0; i < numBalls; ++i) {
     theBalls[i].move();
     theBalls[i].display();
+    for (int j = 0; j < numBalls; ++j) {
+      if (i != j) {
+        theBalls[i].intersect(theBalls[j]);
+      };
+    }
   }
-}  
+  saveFrame("####.png");
+}

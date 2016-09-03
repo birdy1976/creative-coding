@@ -5,6 +5,7 @@
 # Ignore configuration of user #
 ################################
 *.mp4
+*.mov
 
 ##############################################################
 # https://github.com/ewbcanada/myewb2/blob/master/.gitignore #
