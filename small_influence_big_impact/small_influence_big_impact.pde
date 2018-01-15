@@ -200,7 +200,7 @@ void draw() {
       break;
     }
   }
-  saveFrame("####.tif");
+  // saveFrame("####.tif");
 }
 // https://processing.org/examples/regularpolygon.html
 void polygon(float x, float y, float radius, int npoints) {
